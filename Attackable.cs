@@ -23,6 +23,16 @@ public class Attackable : MonoBehaviour {
 	}
 
 	public void die() {
+		if (gameObject.tag == "Objective") {
+			Debug.Log("You lose");
+			//Game Over
+		}
+		if (gameObject.tag == "Soldier") {
+			Soldier _soldier = gameObject.GetComponent<Soldier>();
+			Tree _tree = _soldier.targetDefend.GetComponent<Tree>();
+			_tree.canProduce = true;
+			_tree.delayToProduction = 1500; 
+		}
 		Destroy(gameObject);
 	}
 

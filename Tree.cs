@@ -9,26 +9,33 @@ public class Tree : MonoBehaviour {
 	public bool growing = true;
 	public bool mature = false;
 
-    public float delayToProduction = 0;
-    public float delayToProductionCurrent = 100;
+    public float delayToProduction = 500;
+    public float delayToProductionCurrent = 500;
+    public GameObject guardian ; 
+    public bool canProduce;
 
 public GameObject fallingSoldierSpirit ;
     private Animator animator;
 void Start()
     {
         animator = GetComponent<Animator>();
+        canProduce = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         animator.SetBool("Mature", mature);
-        if (mature) {
+        if (mature && canProduce) {
             delayToProductionCurrent--;
+            if (delayToProductionCurrent <= 0) {
+                delayToProductionCurrent = 0;
+            }
         }
-        if (mature && delayToProductionCurrent == 0) {
+        if (mature && delayToProductionCurrent == 0 && canProduce && guardian == null) {
             createSoldierSpirit();
             delayToProductionCurrent = delayToProduction;
+            canProduce = false;
         }
     }
 

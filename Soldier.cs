@@ -59,7 +59,6 @@ public class Soldier : MonoBehaviour {
 			if ((targetPosition - transform.position).magnitude > 0.6f && !movement.running) {
 				movement.run();
 			} 
-			Debug.Log((targetPosition - transform.position).magnitude);
 			if ((targetPosition - transform.position).magnitude < 0.20f) {
 				movement.stop();
 				targetPosition = Vector3.zero; 

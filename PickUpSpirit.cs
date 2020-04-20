@@ -55,6 +55,13 @@ public class PickUpSpirit : MonoBehaviour {
 				this.moveToSteel(); 
 			}
 		}
+
+		if (transform.position.y > -0.9f && _rigidbody.bodyType == RigidbodyType2D.Kinematic && gameObject.tag != "Spirit") {
+			_rigidbody.bodyType = RigidbodyType2D.Dynamic;
+		} else if (transform.position.y < -0.9f && _rigidbody.bodyType == RigidbodyType2D.Dynamic && gameObject.tag != "Spirit") {
+			_rigidbody.bodyType = RigidbodyType2D.Kinematic;
+			_rigidbody.velocity = Vector3.zero;
+		}
 	}
 
 	public void placeSteel() {

@@ -29,6 +29,7 @@ public class Ground : MonoBehaviour {
 			GameObject newSoldierObject = Instantiate(instantiateSoldier, new Vector3(collision.transform.position.x, -0.897f, 0), this.transform.rotation);
 			Soldier newSoldier = newSoldierObject.GetComponent<Soldier>();
 			newSoldier.targetDefend = parentSoldierSpirit;
+			parentSoldierSpirit.GetComponent<Tree>().guardian = newSoldierObject;
 
 			Destroy(collision.gameObject);
 		}
