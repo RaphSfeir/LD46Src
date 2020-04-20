@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void spawnSpirit() {
-		Instantiate(pickUpLuciole, new Vector3(mainObjective.transform.position.x - Random.Range(-7.0f, 7.0f), 2.0f, 0), transform.rotation);
+		Instantiate(pickUpLuciole, new Vector3(mainObjective.transform.position.x - Random.Range(-3.0f, 7.0f), 2.0f, 0), transform.rotation);
 		spiritSpawnDelay = spiritSpawnDelayMax;
 	}
 	

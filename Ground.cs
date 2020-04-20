@@ -8,6 +8,7 @@ public class Ground : MonoBehaviour {
 
 	public GameObject instantiateTree;
 	public GameObject instantiateSoldier;
+	public GameObject instantiateAttackSoldier;
 	void Start () {
 		
 	}
@@ -31,6 +32,14 @@ public class Ground : MonoBehaviour {
 			newSoldier.targetDefend = parentSoldierSpirit;
 			parentSoldierSpirit.GetComponent<Tree>().guardian = newSoldierObject;
 
+			Destroy(collision.gameObject);
+		}
+		if (collidedWith.tag == "SoldierAttackSpirit") {
+			GameObject parentSoldierSpirit = collidedWith.GetComponent<hasParentSpirit>().parent;
+			GameObject newSoldierObject = Instantiate(instantiateAttackSoldier, new Vector3(collision.transform.position.x, -0.897f, 0), this.transform.rotation);
+			Soldier newSoldier = newSoldierObject.GetComponent<Soldier>();
+			newSoldier.targetDefend = parentSoldierSpirit;
+			parentSoldierSpirit.GetComponent<Tree>().guardian = newSoldierObject;
 			Destroy(collision.gameObject);
 		}
 	}

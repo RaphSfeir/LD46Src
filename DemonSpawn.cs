@@ -21,14 +21,17 @@ public class DemonSpawn : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!demonSpawnBlocked) {
+		if (!demonSpawnBlocked && _gameManager.stepGame >= 1) {
 			if (demonSpawnDelay <= 0 ) {
 				if (GameObject.FindGameObjectsWithTag("Demon").Length <= _gameManager.factoryCount * demonPerfactory) { 
 					spawnWaveDemon();
+					demonSpawnBlocked = true;
 				}
 			} else {
 				demonSpawnDelay--;
 			}
+		} else {
+			demonSpawnBlocked = GameObject.FindGameObjectsWithTag("Demon").Length >= 2 || _gameManager.stepGame < 1;
 		}
 	}
 

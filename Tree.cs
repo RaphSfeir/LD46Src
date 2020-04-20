@@ -8,13 +8,15 @@ public class Tree : MonoBehaviour {
 
 	public bool growing = true;
 	public bool mature = false;
+    public bool linkedToMegaTree = false;
 
     public float delayToProduction = 500;
     public float delayToProductionCurrent = 500;
     public GameObject guardian ; 
     public bool canProduce;
 
-public GameObject fallingSoldierSpirit ;
+    public GameObject fallingSoldierSpirit ;
+    public GameObject megaTreePrefab;
     private Animator animator;
 void Start()
     {
@@ -25,7 +27,9 @@ void Start()
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool("Mature", mature);
+        if (animator != null) {
+            animator.SetBool("Mature", mature);
+        }
         if (mature && canProduce) {
             delayToProductionCurrent--;
             if (delayToProductionCurrent <= 0) {
@@ -36,6 +40,36 @@ void Start()
             createSoldierSpirit();
             delayToProductionCurrent = delayToProduction;
             canProduce = false;
+        }
+    }
+
+    void turnTreeMature() {
+        Debug.Log("TURN TREE MATURE");
+        mature = true;
+        checkMegaTreeProduce();
+    }
+
+    void checkMegaTreeProduce() {
+        GameObject[] allTrees = GameObject.FindGameObjectsWithTag("Factory");
+        List<Tree> availableTrees = new List<Tree>();
+        int countMega = 0;
+        if (!linkedToMegaTree) {
+            availableTrees.Add(this);
+        }
+        foreach(GameObject treeGO in allTrees) {
+            Tree _tree = treeGO.GetComponent<Tree>();
+            if (!_tree.linkedToMegaTree) { 
+                countMega++;
+                availableTrees.Add(_tree);
+            }
+        }
+        if (countMega >= 3) {
+            Debug.Log("Can build MEGA tree !");
+            float spawnX = (availableTrees[0].gameObject.transform.position.x + availableTrees[1].gameObject.transform.position.x + availableTrees[2].gameObject.transform.position.x) / 3.0f;
+            Instantiate(megaTreePrefab, new Vector3(spawnX, -0.57f, transform.position.z), transform.rotation);
+            foreach (Tree builtTree in availableTrees) {
+                builtTree.linkedToMegaTree = true;
+            }
         }
     }
 

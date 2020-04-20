@@ -16,6 +16,7 @@ public class Soldier : MonoBehaviour {
 	public int delayIdle = 0;
 	public int delayIdleMax = 1000;
 	public int damage = 1; 
+	public bool attackOnly = false;
 	void Start () {
 		status = "idle";
 		delayAttack = delayAttackMax;
@@ -29,6 +30,14 @@ public class Soldier : MonoBehaviour {
 			if (status == "idle") {
 			// Look for ennemies to attack
 				GameObject objective = GameObject.FindGameObjectWithTag("Objective");
+				targetPosition = objective.transform.position;
+				status = "moveTo";
+			} 
+		}
+		if (attackOnly) {
+			if (status == "idle") {
+			// Look for ennemies to attack
+				GameObject objective = GameObject.FindGameObjectWithTag("DemonObjective");
 				targetPosition = objective.transform.position;
 				status = "moveTo";
 			} 

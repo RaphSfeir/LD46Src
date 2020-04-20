@@ -25,7 +25,7 @@ public class Movable : MonoBehaviour {
 	void Update () {
             _rigibody.velocity = Vector3.SmoothDamp(_rigibody.velocity, targetVelocity, ref initVelocity, vSmoothTime);
             walking = Mathf.Abs(_rigibody.velocity.x) > 0.05f;
-            //animator.SetBool("walking", walking);
+            animator.SetBool("walking", walking);
 			if (gameObject.tag == "Player") {
 	            parallax.Speed = _rigibody.velocity.x * parallaxSpeedFactor * -1.0f;
 			}

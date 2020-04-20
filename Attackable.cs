@@ -29,9 +29,11 @@ public class Attackable : MonoBehaviour {
 		}
 		if (gameObject.tag == "Soldier") {
 			Soldier _soldier = gameObject.GetComponent<Soldier>();
-			Tree _tree = _soldier.targetDefend.GetComponent<Tree>();
-			_tree.canProduce = true;
-			_tree.delayToProduction = 1500; 
+			if (_soldier.targetDefend) {
+				Tree _tree = _soldier.targetDefend.GetComponent<Tree>();
+				_tree.canProduce = true;
+				_tree.delayToProduction = 10000; 
+			}
 		}
 		Destroy(gameObject);
 	}
@@ -40,7 +42,6 @@ public class Attackable : MonoBehaviour {
 		if (collision.gameObject.tag == "Soldier") {
 			Soldier soldierContact = collision.gameObject.GetComponent<Soldier>();
 			if (soldierContact.targetAttack == gameObject) {
-				Debug.Log("ENGAGE THE ENNEMY !!");
 				soldierContact.engageEnemy();
 			}
 

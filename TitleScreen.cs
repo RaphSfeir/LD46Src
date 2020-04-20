@@ -12,13 +12,11 @@ public class TitleScreen : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D collision) {
-		Debug.Log("ENTER TITLE SCREEN !!");
 		if (collision.gameObject.tag == "Player" && !titleScreenDone) {
 	        animator.SetBool("appear", true);
 		}
 	}
 	void endFadeIn() {
-		Debug.Log("end title screen");
 		titleScreenDone = true;
         animator.SetBool("appear", false);
 		Destroy(gameObject);
