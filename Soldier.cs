@@ -17,11 +17,13 @@ public class Soldier : MonoBehaviour {
 	public int delayIdleMax = 1000;
 	public int damage = 1; 
 	public bool attackOnly = false;
+    private Animator animator;
 	void Start () {
 		status = "idle";
 		delayAttack = delayAttackMax;
 		targetAttack = null;
         movement = GetComponent<Movable>();
+		animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -76,7 +78,7 @@ public class Soldier : MonoBehaviour {
 		} else if (status == "fighting") {
 			if (targetAttack != null) {
 				if (delayAttack <= 0) {
-					attack();
+					startAttack();
 				} else {
 					delayAttack--;
 				}
@@ -86,6 +88,7 @@ public class Soldier : MonoBehaviour {
 				targetAttack = null;
 				targetPosition = Vector3.zero;
 				movement.stop();
+		        animator.SetBool("fighting", false);
 			}
 
 		}
@@ -101,15 +104,26 @@ public class Soldier : MonoBehaviour {
 		}
 	}
 
+	public void startAttack() {
+		animator.SetBool("attacking", true);
+	}
+
 	public void attack() {
-		delayAttack = delayAttackMax;
-		Attackable receiverAttackable = targetAttack.GetComponent<Attackable>();
-		receiverAttackable.receiveDamage(damage);
+		if (targetAttack != null) {
+			delayAttack = delayAttackMax;
+			Attackable receiverAttackable = targetAttack.GetComponent<Attackable>();
+			receiverAttackable.receiveDamage(damage);
+			animator.SetBool("attacking", false);
+		} else {
+			delayAttack = delayAttackMax;
+			animator.SetBool("attacking", false);
+		}
 	}
 
 	public void engageEnemy() {
 		movement.stop();
 		status = "fighting";
+        animator.SetBool("fighting", true);
 	}
 
 	public GameObject findClosestDemon() {

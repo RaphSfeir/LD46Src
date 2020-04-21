@@ -17,6 +17,7 @@ public class Movable : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         walking = false;
+        running = false;
 		animator = GetComponent<Animator>();
 		_rigibody = GetComponent<Rigidbody2D>();
 	}
@@ -24,21 +25,30 @@ public class Movable : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
             _rigibody.velocity = Vector3.SmoothDamp(_rigibody.velocity, targetVelocity, ref initVelocity, vSmoothTime);
-            walking = Mathf.Abs(_rigibody.velocity.x) > 0.05f;
+            walking = Mathf.Abs(_rigibody.velocity.x) > 0.10f;
+			running = Mathf.Abs(_rigibody.velocity.x) > 0.31f;
             animator.SetBool("walking", walking);
+			animator.SetBool("running", running);
 			if (gameObject.tag == "Player") {
 	            parallax.Speed = _rigibody.velocity.x * parallaxSpeedFactor * -1.0f;
 			}
 	}
 
 	public void goRight() {
+		if (transform.position.x >= 35.0f) {
+
+		}
 		targetVelocity = Vector2.right * movementSpeed;
  		transform.localScale = new Vector2(1, 1 );
 	}
 
 	public void goLeft(){
-        targetVelocity = Vector2.left * movementSpeed;
-		transform.localScale = new Vector2(-1, 1);
+		if (transform.position.x < -4.1f) {
+			stop();
+		} else {
+			targetVelocity = Vector2.left * movementSpeed;
+			transform.localScale = new Vector2(-1, 1);
+		}
 	}
 	public void run() {
 		running = true;

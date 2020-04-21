@@ -9,8 +9,11 @@ public class Ground : MonoBehaviour {
 	public GameObject instantiateTree;
 	public GameObject instantiateSoldier;
 	public GameObject instantiateAttackSoldier;
+
+	public Objective _objective;
 	void Start () {
-		
+		GameObject ObjectiveGO = GameObject.FindGameObjectWithTag("Objective");
+		_objective = ObjectiveGO.GetComponent<Objective>();
 	}
 	
 	// Update is called once per frame
@@ -21,6 +24,11 @@ public class Ground : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collision) {
 		GameObject collidedWith = collision.gameObject;
 		if (collidedWith.tag == "Spirit") {
+			//Check first spirit
+			if (collidedWith.gameObject == _objective.firstLuciole) {
+				Debug.Log("collided with first luciole !");
+				_objective._text.enabled = false;
+			}
 			Instantiate(instantiateTree, collision.transform.position + new Vector3(0, 0.22f, 0), this.transform.rotation);
 			Destroy(collision.gameObject);
 		}

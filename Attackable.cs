@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Attackable : MonoBehaviour {
 
@@ -25,7 +26,10 @@ public class Attackable : MonoBehaviour {
 	public void die() {
 		if (gameObject.tag == "Objective") {
 			Debug.Log("You lose");
-			//Game Over
+			SceneManager.LoadScene("GameOver");
+		}
+		if (gameObject.tag == "DemonObjective") {
+			SceneManager.LoadScene("GameSuccess");
 		}
 		if (gameObject.tag == "Soldier") {
 			Soldier _soldier = gameObject.GetComponent<Soldier>();
@@ -46,7 +50,7 @@ public class Attackable : MonoBehaviour {
 			}
 
 		}
-		if (gameObject.tag == "Demon" && (collision.gameObject.tag == "Soldier" || collision.gameObject.tag == "Factory")) {
+		if (gameObject.tag == "Demon" && (collision.gameObject.tag == "Soldier" || collision.gameObject.tag == "Factory" || collision.gameObject.tag == "Objective")) {
 			if (collision.gameObject.tag == "Soldier") {
 				Soldier soldierContact = collision.gameObject.GetComponent<Soldier>();
 				soldierContact.targetAttack = gameObject;

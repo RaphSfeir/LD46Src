@@ -37,7 +37,7 @@ public class DemonSpawn : MonoBehaviour {
 
 	void spawnWaveDemon() {
 		for (int i = 0; (i <= _gameManager.factoryCount * demonPerfactory + 2 * _gameManager.stepGame); i++)  {
-			Instantiate(demonObject, new Vector3(this.transform.position.x - Random.Range(-2.0f, 2.0f), -0.88f, 0), this.transform.rotation);
+			Instantiate(demonObject, new Vector3(this.transform.position.x - Random.Range(-2.0f, 2.0f), -0.94f, 0), this.transform.rotation);
 		}
 		demonSpawnDelay = demonSpawnDelayMax;
 	}

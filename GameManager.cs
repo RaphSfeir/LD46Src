@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject mainObjective;
 
 	public int stepGame;
+	public int maxSpiritsCount; 
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (stepGame >= 1) { 
-			if (spiritSpawnDelay <= 0 && GameObject.FindGameObjectsWithTag("PickUpSpirit").Length <= 5) {
+			if (spiritSpawnDelay <= 0 && GameObject.FindGameObjectsWithTag("PickUpSpirit").Length <= maxSpiritsCount) {
 				spawnSpirit();
 			} else {
 				spiritSpawnDelay--;
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void spawnSpirit() {
-		Instantiate(pickUpLuciole, new Vector3(mainObjective.transform.position.x - Random.Range(-3.0f, 7.0f), 2.0f, 0), transform.rotation);
+		Instantiate(pickUpLuciole, new Vector3(mainObjective.transform.position.x + Random.Range(-3.0f, 7.0f), 2.0f, 0), transform.rotation);
 		spiritSpawnDelay = spiritSpawnDelayMax;
 	}
 	
