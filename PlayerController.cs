@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
 
     public List<PickUpSpirit> carryingSpirits;
     public Movable movement;
+    public AudioSource music;
+    public AudioSource ambientSound;
 
 	void Awake () {
         movement = GetComponent<Movable>();
@@ -19,6 +21,11 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
         controlInputs();
 	}
+
+    void Start() {
+        music.Play();
+        ambientSound.Play();
+    }
 
     void controlInputs () {
             if (Input.GetKey(KeyCode.LeftArrow))
