@@ -37,8 +37,12 @@ public class Ground : MonoBehaviour {
 			GameObject parentSoldierSpirit = collidedWith.GetComponent<hasParentSpirit>().parent;
 			GameObject newSoldierObject = Instantiate(instantiateSoldier, new Vector3(collision.transform.position.x, -0.897f, 0), this.transform.rotation);
 			Soldier newSoldier = newSoldierObject.GetComponent<Soldier>();
-			newSoldier.targetDefend = parentSoldierSpirit;
-			parentSoldierSpirit.GetComponent<Tree>().guardian = newSoldierObject;
+			if (parentSoldierSpirit != null) {
+				newSoldier.targetDefend = parentSoldierSpirit;
+				parentSoldierSpirit.GetComponent<Tree>().guardian = newSoldierObject;
+			}
+			Movable newMove = newSoldier.GetComponent<Movable>();
+			newMove.movementSpeed = newMove.movementSpeed + Random.Range(-0.05f, 0.05f);
 
 			Destroy(collision.gameObject);
 		}
@@ -46,8 +50,13 @@ public class Ground : MonoBehaviour {
 			GameObject parentSoldierSpirit = collidedWith.GetComponent<hasParentSpirit>().parent;
 			GameObject newSoldierObject = Instantiate(instantiateAttackSoldier, new Vector3(collision.transform.position.x, -0.897f, 0), this.transform.rotation);
 			Soldier newSoldier = newSoldierObject.GetComponent<Soldier>();
-			newSoldier.targetDefend = parentSoldierSpirit;
-			parentSoldierSpirit.GetComponent<Tree>().guardian = newSoldierObject;
+			if (parentSoldierSpirit != null) {
+				newSoldier.targetDefend = parentSoldierSpirit;
+				parentSoldierSpirit.GetComponent<Tree>().guardian = newSoldierObject;
+			}
+			newSoldier.targetAttack = GameObject.FindGameObjectWithTag("DemonObjective");
+			Movable newMove = newSoldier.GetComponent<Movable>();
+			newMove.movementSpeed = newMove.movementSpeed + Random.Range(-0.05f, 0.05f);
 			Destroy(collision.gameObject);
 		}
 	}

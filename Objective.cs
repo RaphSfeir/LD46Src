@@ -14,6 +14,10 @@ public class Objective : MonoBehaviour {
 
 	public string messageHelp1;
 	public string messageHelp2;
+	public string messageHelp3;
+	public string messageHelp4;
+	public string messageHelp5; 
+
 	void Start () {
 		_gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
 		UIBottomMessage = GameObject.FindGameObjectWithTag("BottomMessage");

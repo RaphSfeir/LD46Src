@@ -19,6 +19,7 @@ public class PickUpSpirit : MonoBehaviour {
 	private Rigidbody2D _rigidbody;
 	private BoxCollider2D _collider;
 
+
     void Awake()
     {
 		_rigidbody = GetComponent<Rigidbody2D>();
@@ -125,6 +126,7 @@ public class PickUpSpirit : MonoBehaviour {
 			PlayerController PC = player.GetComponent<PlayerController>();
 			PC.carryingSpirits.Add(this);
 			PC.spiritCount++;
+			PC.pickUpSound();
 			this.followingTarget = gameManager.getPlayer().transform; 
 		}
 	}

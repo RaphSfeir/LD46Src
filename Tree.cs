@@ -18,9 +18,11 @@ public class Tree : MonoBehaviour {
     public GameObject fallingSoldierSpirit ;
     public GameObject megaTreePrefab;
     private Animator animator;
+    public int countCreateSoldier; 
 void Start()
     {
         animator = GetComponent<Animator>();
+        delayToProductionCurrent = 100;
         canProduce = true;
     }
 
@@ -37,7 +39,9 @@ void Start()
             }
         }
         if (mature && delayToProductionCurrent == 0 && canProduce && guardian == null) {
-            createSoldierSpirit();
+            for (int i = 0 ; i < countCreateSoldier ; i++) {
+                createSoldierSpirit();
+            }
             delayToProductionCurrent = delayToProduction;
             canProduce = false;
         }

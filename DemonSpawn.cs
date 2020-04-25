@@ -24,7 +24,7 @@ public class DemonSpawn : MonoBehaviour {
 		if (!demonSpawnBlocked && _gameManager.stepGame >= 1) {
 			if (demonSpawnDelay <= 0 ) {
 				if (GameObject.FindGameObjectsWithTag("Demon").Length <= _gameManager.factoryCount * demonPerfactory) { 
-					spawnWaveDemon();
+					spawnWaveDemon(_gameManager.factoryCount * demonPerfactory + 2 * _gameManager.stepGame);
 					demonSpawnBlocked = true;
 				}
 			} else {
@@ -35,10 +35,12 @@ public class DemonSpawn : MonoBehaviour {
 		}
 	}
 
-	void spawnWaveDemon() {
-		for (int i = 0; (i <= _gameManager.factoryCount * demonPerfactory + 2 * _gameManager.stepGame); i++)  {
-			Instantiate(demonObject, new Vector3(this.transform.position.x - Random.Range(-2.0f, 2.0f), -0.94f, 0), this.transform.rotation);
+	public void spawnWaveDemon(int quantity) {
+		for (int i = 0; (i <= quantity); i++)  {
+			GameObject newDemon = Instantiate(demonObject, new Vector3(this.transform.position.x - Random.Range(-2.0f, 2.0f), -0.94f, 0), this.transform.rotation);
+			Movable newDemonMove = newDemon.GetComponent<Movable>();
+			newDemonMove.movementSpeed = newDemonMove.movementSpeed + Random.Range(-0.10f, 0.10f);
 		}
-		demonSpawnDelay = demonSpawnDelayMax;
+		demonSpawnDelay = demonSpawnDelayMax + Random.Range(0, 2000);
 	}
 }

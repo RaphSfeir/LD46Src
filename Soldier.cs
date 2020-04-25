@@ -17,13 +17,25 @@ public class Soldier : MonoBehaviour {
 	public int delayIdleMax = 1000;
 	public int damage = 1; 
 	public bool attackOnly = false;
+	public bool orderedAttack = false;
     private Animator animator;
+
+	public PlayerController playerController;
+
 	void Start () {
 		status = "idle";
 		delayAttack = delayAttackMax;
 		targetAttack = null;
         movement = GetComponent<Movable>();
 		animator = GetComponent<Animator>();
+		playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+	}
+
+	public void orderAttackOnDemonObjective() {
+		GameObject objective = GameObject.FindGameObjectWithTag("DemonObjective");
+		targetAttack = objective;
+		targetPosition = objective.transform.position;
+		status = "moveTo";
 	}
 	
 	// Update is called once per frame
@@ -39,7 +51,13 @@ public class Soldier : MonoBehaviour {
 		if (attackOnly) {
 			if (status == "idle") {
 			// Look for ennemies to attack
-				GameObject objective = GameObject.FindGameObjectWithTag("DemonObjective");
+				GameObject objective;
+				if (orderedAttack) {
+					objective = GameObject.FindGameObjectWithTag("DemonObjective");
+				} else {
+					objective = GameObject.FindGameObjectWithTag("Borderline");
+				}
+				targetAttack = objective;
 				targetPosition = objective.transform.position;
 				status = "moveTo";
 			} 
@@ -59,6 +77,7 @@ public class Soldier : MonoBehaviour {
 			if (status == "moveToAttack") {
 				if (targetAttack == null) {
 					status = "idle";
+					targetPosition = Vector3.zero; 
 				}
 			}
 			if (targetPosition.x - transform.position.x > 0) {
@@ -95,12 +114,17 @@ public class Soldier : MonoBehaviour {
 	}
 
 	public void idleSoldier() {
+		if (targetDefend == null && !attackOnly) {
+			targetDefend = GameObject.FindGameObjectWithTag("Player");
+		}
 		if (targetDefend != null && targetPosition == Vector3.zero && delayIdle <= 0) {
-			targetPosition = new Vector3(Random.Range(targetDefend.transform.position.x - 3.0f, targetDefend.transform.position.x + 3.0f), targetDefend.transform.position.y);
+			targetPosition = new Vector3(Random.Range(targetDefend.transform.position.x - 2.0f, targetDefend.transform.position.x + 2.0f), targetDefend.transform.position.y);
 			status = "moveTo";
 			delayIdle = Random.Range(delayIdleMax - 200, delayIdleMax + 200);
 		} else {
 			delayIdle--;
+			if (delayIdle <= 0) 
+				delayIdle = 0;
 		}
 	}
 
@@ -112,8 +136,18 @@ public class Soldier : MonoBehaviour {
 		if (targetAttack != null) {
 			delayAttack = delayAttackMax;
 			Attackable receiverAttackable = targetAttack.GetComponent<Attackable>();
-			receiverAttackable.receiveDamage(damage);
-			animator.SetBool("attacking", false);
+			if (receiverAttackable != null) {
+				receiverAttackable.receiveDamage(damage);
+				animator.SetBool("attacking", false);
+				if (gameObject.tag == "Soldier") {
+					playerController.hitGuardianSound.Play();
+				} else if (gameObject.tag == "Demon") {
+					playerController.hitDemonSound.Play();
+				}
+			} else {
+				delayAttack = delayAttackMax;
+				animator.SetBool("attacking", false);
+			}
 		} else {
 			delayAttack = delayAttackMax;
 			animator.SetBool("attacking", false);

@@ -6,6 +6,8 @@ public class Movable : MonoBehaviour {
 
     public Rigidbody2D _rigibody ; 
     public FreeParallax parallax;
+    public FreeParallax parallaxWater;
+	public float initialParallaxWaterSpeed;
     private Vector3 initVelocity = Vector3.zero;
     public float parallaxSpeedFactor;
     public float movementSpeed ;
@@ -20,26 +22,31 @@ public class Movable : MonoBehaviour {
         running = false;
 		animator = GetComponent<Animator>();
 		_rigibody = GetComponent<Rigidbody2D>();
+		if (parallaxWater != null) {
+			initialParallaxWaterSpeed = parallaxWater.Speed;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
             _rigibody.velocity = Vector3.SmoothDamp(_rigibody.velocity, targetVelocity, ref initVelocity, vSmoothTime);
             walking = Mathf.Abs(_rigibody.velocity.x) > 0.10f;
-			running = Mathf.Abs(_rigibody.velocity.x) > 0.31f;
+			running = Mathf.Abs(_rigibody.velocity.x) > 0.35f;
             animator.SetBool("walking", walking);
 			animator.SetBool("running", running);
 			if (gameObject.tag == "Player") {
-	            parallax.Speed = _rigibody.velocity.x * parallaxSpeedFactor * -1.0f;
+	            parallax.Speed = _rigibody.velocity.x * parallaxSpeedFactor * -0.8f;
+				parallaxWater.Speed = initialParallaxWaterSpeed - _rigibody.velocity.x * 2.0f;
 			}
 	}
 
 	public void goRight() {
-		if (transform.position.x >= 35.0f) {
-
+		if (transform.position.x >= 18.6f && gameObject.tag == "Player") {
+			stop();
+		} else {
+			targetVelocity = Vector2.right * movementSpeed;
+			transform.localScale = new Vector2(1, 1 );
 		}
-		targetVelocity = Vector2.right * movementSpeed;
- 		transform.localScale = new Vector2(1, 1 );
 	}
 
 	public void goLeft(){

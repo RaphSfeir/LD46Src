@@ -12,10 +12,10 @@ public class ParallaxBackground : MonoBehaviour {
 	public float widthRepeat ; 
 
 	public bool followingCamera;
-	public Transform camera; 
+	public GameObject camera; 
 
 	void Start() {
-		this.initialPosition = camera.position; 
+		this.initialPosition = camera.transform.position; 
 	}
 
 
