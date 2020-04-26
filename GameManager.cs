@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour {
 		}
 		if (factoryCount >= 9 && stepGame == 3) {
 			stepGame++;
+			stepGame++;
 		}
 		factoryCount = GameObject.FindGameObjectsWithTag("Factory").Length;
 	}

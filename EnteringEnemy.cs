@@ -16,7 +16,6 @@ public class EnteringEnemy : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collision) {
 		if (collision.gameObject.tag == "Player") {
-			Debug.Log("Player DECLARED WAR !!");
 			GameObject[] allSoldiers = GameObject.FindGameObjectsWithTag("Soldier");
 			List<Soldier> attackSoldiers = new List<Soldier>();
 			foreach (GameObject cSoldier in allSoldiers) {
